@@ -1,11 +1,15 @@
-#include"headers.h"
+#include"header.h"
 #include"declarations.h"
-
-static void  __exit remove(void)
+static void __exit clean(void)
 {
-	printk(KERN_ALERT "Bye For Now Kernel\n");
+	int i;
+        printk(KERN_ALERT "Bye kernel\n");
 	kfree(dev);
-	
-	unregister_chrdev_region(devid,NOD);
+	unregister_chrdev_region(devid,nod);
+	for(i=0;i<nod;i++)
+	{
+	cdev_del(&dev[i].c_dev);
+	}
 }
-module_exit(remove);
+module_exit(clean);
+
