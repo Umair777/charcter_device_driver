@@ -1,0 +1,84 @@
+#! /bin/bash
+for file in $(ls *.c) $(ls *.h)
+do 
+	ci $file
+done
+for file in $(ls *.c,v) $(ls *.h,v) 
+do 
+	co $file
+done
+RunWithApp()
+{
+	echo
+	echo  "Enter the Major Number : "  
+	read majorno 
+	echo
+	echo  "Enter the Minor Number : " 
+	read minorno 
+	mknod Mydriver c $majorno $minorno
+	cd /home/jarvis/Downloads/umair/PROJECTS/device_driver2/app 
+	if ( make )
+	then
+		./Uapp
+	fi
+}
+
+Insertdriver()
+{
+	unlink "Mydriver"
+	read -n1 -p "Do You want to Insert Driver? (y/n)"
+		if [ $REPLY = 'y' ]
+			then
+				insmod ./modules/lkm107.ko 
+				echo "Module Inserted"
+				cat /proc/devices
+				read
+				dmesg
+				read
+				read -n1 -p "Do you want to Run with APP?(y/n)"
+				if [ $REPLY = 'y' ]
+				then	
+					RunWithApp
+				fi
+		else
+			echo "Dont Mind"
+				fi
+}
+Removedriver()
+{
+	read -n1 -p "Do You want to Remove  Driver? (y/n)"
+		if [ $REPLY = 'y' ]
+			then
+				rmmod lkm107 
+				lsmod
+				read
+				dmesg
+				read
+		else
+			echo"still inserted "
+				fi
+}
+EditFurther()
+{
+	read -n1 -p "Do You want to Edit Further? (y/n)"
+		if [ $REPLY = 'y' ]
+			then
+				for file in $(ls *.c) $(ls *.h) 
+					do 
+						co -l $file
+							done
+		fi
+}
+Builddriver()
+{
+	if ( make )
+		then 
+			Insertdriver
+	else
+		echo "make fail"
+			read 		
+			fi
+}
+Builddriver
+Removedriver
+EditFurther

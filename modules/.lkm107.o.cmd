@@ -1,0 +1,1 @@
+cmd_/home/jarvis/Downloads/umair/PROJECTS/device_driver2/lkm107.o := ld -m elf_x86_64   -r -o /home/jarvis/Downloads/umair/PROJECTS/device_driver2/lkm107.o /home/jarvis/Downloads/umair/PROJECTS/device_driver2/insert.o /home/jarvis/Downloads/umair/PROJECTS/device_driver2/clean.o /home/jarvis/Downloads/umair/PROJECTS/device_driver2/opendev.o 

@@ -1,0 +1,1 @@
+cmd_/home/jarvis/Downloads/umair/PROJECTS/device_driver2/lkm107.ko := ld -r -m elf_x86_64 -T ./scripts/module-common.lds --build-id  -o /home/jarvis/Downloads/umair/PROJECTS/device_driver2/lkm107.ko /home/jarvis/Downloads/umair/PROJECTS/device_driver2/lkm107.o /home/jarvis/Downloads/umair/PROJECTS/device_driver2/lkm107.mod.o ;  true

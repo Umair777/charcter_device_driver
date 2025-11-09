@@ -1,0 +1,40 @@
+lean.c 
+  610  ls
+  611  cd modules/
+  612  ls
+  613  cd ..
+  614  insmod lkm107
+  615  ls
+  616  insmod lkm107.ko
+  617  cd modules/
+  618  insmod lkm107.ko
+  619  lsmod
+  620  dmesg
+  621  rmmod lkm107 
+  622  lsmod
+  623  dmesg
+  624  cd ..
+  625  ls
+  626  vim clean.c 
+  627  dmesg
+  628  lsmod 
+  629  ls
+  630  make
+  631  cd modules/
+  632  insmod lkm107.ko 
+  633  lsmod |less
+  634  dmesg
+  635  rmmod lkm107 
+  636  dmesg
+  637  cd ..
+  638  ls
+  639  vim insert.c 
+  640  vim clean.c 
+  641  make
+  642  cd modules/
+  643  ls
+  644  dmesg
+  645  insmod lkm107.ko 
+  646  dmesg
+  647  lsmod 
+
