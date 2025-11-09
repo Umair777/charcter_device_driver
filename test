@@ -1,84 +1,104 @@
 #! /bin/bash
-for file in $(ls *.c) $(ls *.h)
-do 
-	ci $file
-done
-for file in $(ls *.c,v) $(ls *.h,v) 
-do 
-	co $file
-done
-RunWithApp()
-{
-	echo
-	echo  "Enter the Major Number : "  
-	read majorno 
-	echo
-	echo  "Enter the Minor Number : " 
-	read minorno 
-	mknod Mydriver c $majorno $minorno
-	cd /home/jarvis/Downloads/umair/PROJECTS/device_driver2/app 
-	if ( make )
-	then
-		./Uapp
-	fi
-}
 
-Insertdriver()
+for file in $(ls *.h) $(ls *.c)
+	do
+	ci $file
+	done
+
+for file in $(ls *.h,v) $(ls *.c,v)
+	do
+	co $file
+	done
+Runapp()
 {
-	unlink "Mydriver"
-	read -n1 -p "Do You want to Insert Driver? (y/n)"
-		if [ $REPLY = 'y' ]
-			then
-				insmod ./modules/lkm107.ko 
-				echo "Module Inserted"
-				cat /proc/devices
-				read
-				dmesg
-				read
-				read -n1 -p "Do you want to Run with APP?(y/n)"
-				if [ $REPLY = 'y' ]
-				then	
-					RunWithApp
-				fi
-		else
-			echo "Dont Mind"
-				fi
-}
-Removedriver()
-{
-	read -n1 -p "Do You want to Remove  Driver? (y/n)"
-		if [ $REPLY = 'y' ]
-			then
-				rmmod lkm107 
-				lsmod
-				read
-				dmesg
-				read
-		else
-			echo"still inserted "
-				fi
-}
-EditFurther()
-{
-	read -n1 -p "Do You want to Edit Further? (y/n)"
-		if [ $REPLY = 'y' ]
-			then
-				for file in $(ls *.c) $(ls *.h) 
-					do 
-						co -l $file
-							done
-		fi
+	unlink Mydev
+	read -n1 -p "Do you want to compile Application?(y/n)"
+	if [ $REPLY = 'y' ]
+	then
+		if (make -C ./Application)
+		then
+	read -n1 -p "Do you want to run Application?(y/n)"
+	if [ $REPLY = 'y' ]
+	then
+		
+	echo -n1 -p "Enter the Major no:" 
+		read majorno 
+		mknod Mydev c $majorno 0
+		cd /home/anmolzehra/Projects/drivers/Testdriver/Application
+		make
+		./app
+		cd ..
+		
+	fi
+	fi
+	fi
+	Removedriver
 }
 Builddriver()
 {
 	if ( make )
-		then 
+		then
 			Insertdriver
 	else
-		echo "make fail"
-			read 		
+		echo"make failed"
+			read
 			fi
 }
+Insertdriver()
+{
+	read -n1 -p "Do you want to insert driver? (y/n)"
+		if [ $REPLY = 'y' ]
+			then
+				if (insmod ./modules/lkm107.ko nod=10) 
+					then
+						lsmod
+						read
+						dmesg
+						read
+						cat /proc/devices
+						read
+						cat /proc/modules
+						read
+						Runapp
+						fi
+				else
+					echo"Never Mind"
+						fi
+}
+Removedriver()
+{
+	read -n1 -p "Do you want to remove driver ?(y/n)"
+		if [ $REPLY = 'y' ]
+			then
+				if (rmmod lkm107)
+					then
+						lsmod
+						read
+						dmesg
+						read
+						cat /proc/devices
+						read
+						cat /proc/modules
+						read
+						fi
+				else
+					echo"Happy working with device"
+						fi
+}
+
 Builddriver
-Removedriver
-EditFurther
+read -n1 -p "Do you want to edit further ?(y/n)" resp
+if [ $resp = 'y' ]
+	then
+for file in $(ls *.h,v)
+	do
+	co -l $file
+	done
+
+for file in $(ls *.c,v)
+	do
+	co -l $file
+	done
+
+	fi
+

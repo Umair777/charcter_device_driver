@@ -1,10 +1,40 @@
-#include"headers.h"
+#include"header.h"
 #include"declarations.h"
-
-int opendev(struct inode *indop , struct file *fileop)
+Dev *ldev;
+int Opendev(struct inode *inodep,struct file *filep)
 {
-	printk(KERN_INFO "%s: Begin",__func__);
-	printk(KERN_INFO "%s: End",__func__);
-return 0;
+	int ret;
+	#ifdef DEBUG
+	printk(KERN_ALERT "Opendev Begins\n");
+	#endif
+	ldev=dev;
+	ldev=container_of(inodep->i_cdev,Dev,c_dev);	
+	if(!ldev)
+	{
+	#ifdef DEBUG
+	printk(KERN_ERR "ERROR in container_of\n");
+	#endif	
+	goto OUT;
+	}
+	if((filep->f_flags & O_ACCMODE)== O_WRONLY)
+	{
+		ret=trimdev(ldev);	
+		if(ret !=0)
+		{
+		#ifdef DEBUG
+		printk(KERN_ERR "Error in ret\n");
+		#endif	
+		goto OUT;
+		}
+	}
+	#ifdef DEBUG
+	printk(KERN_ALERT "Opendev Ends\n");
+	#endif
+	filep->private_data=ldev;
+	return 0;
+OUT:
+	#ifdef DEBUG
+	printk(KERN_ERR "ERROR and exit\n");
+	#endif	
+	return -1;	
 }
-

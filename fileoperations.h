@@ -1,4 +1,6 @@
- struct file_operations fops  =
+struct file_operations fops =
 {
-	open:opendev
+	open : Opendev,
+	release: Releasedev,
+	write: Writedev
 };
